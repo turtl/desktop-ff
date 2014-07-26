@@ -7,4 +7,6 @@ cl \
 	-e '(turtl-gen:generate "data/app/" :index-popup :prepend "app")' \
 	-e '(quit)'
 
+chmod 644 data/index.html data/popup/index.html
+
 popd > /dev/null
