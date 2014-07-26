@@ -56,6 +56,11 @@ var turtl_core = {
 	reload: function()
 	{
 		turtl_core.send({ev: 'cmd', data: {name: 'reload'}});
+	},
+
+	stop: function()
+	{
+		turtl_core.send({ev: 'cmd', data: {name: 'stop'}});
 	}
 };
 
