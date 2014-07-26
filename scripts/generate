@@ -1,0 +1,10 @@
+#!/bin/bash
+
+pushd chrome/content > /dev/null
+
+cl \
+	-e '(load "scripts/generate")' \
+	-e '(turtl-gen:generate "data/app/" :index-popup :prepend "app")' \
+	-e '(quit)'
+
+popd > /dev/null

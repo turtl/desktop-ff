@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo "Did you run ./scripts/package first??"
+sleep 2
+
+echo -n "Packaging windows..."
+./scripts/do-release windows
+echo "done."
+
+echo -n "Packaging linux32..."
+./scripts/do-release linux32
+echo "done."
+
+echo -n "Packaging linux64..."
+./scripts/do-release linux64
+echo "done."
+
+echo -n "Packaging macos..."
+./scripts/do-release macos
+echo "done."
+
+echo "All done!"
