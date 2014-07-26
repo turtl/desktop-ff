@@ -1,12 +1,9 @@
 #!/bin/bash
 
-pushd chrome/content > /dev/null
-
 cl \
 	-e '(load "scripts/generate")' \
-	-e '(turtl-gen:generate "data/app/" :index-popup :prepend "app")' \
+	-e '(turtl-gen:generate "chrome/content/data/app/" :index-popup :prepend "app")' \
 	-e '(quit)'
 
-chmod 644 data/index.html data/popup/index.html
+chmod 644 chrome/content/data/index.html chrome/content/data/popup/index.html
 
-popd > /dev/null

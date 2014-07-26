@@ -180,16 +180,16 @@
                          ("{{gentpl}}" . ,tpl))))
     (case output-type
       (:index
-        (let ((data (file-contents "data/index.html.tpl")))
-          (write-file "data/index.html" (do-replacements data replacements))))
+        (let ((data (file-contents "chrome/content/data/index.html.tpl")))
+          (write-file "chrome/content/data/index.html" (do-replacements data replacements))))
       (:popup
-        (let ((data (file-contents "data/popup/index.html.tpl")))
-          (write-file "data/popup/index.html" (do-replacements data replacements))))
+        (let ((data (file-contents "chrome/content/data/popup/index.html.tpl")))
+          (write-file "chrome/content/data/popup/index.html" (do-replacements data replacements))))
       (:index-popup
-        (let ((idx (file-contents "data/index.html.tpl"))
-              (pop (file-contents "data/popup/index.html.tpl")))
-          (write-file "data/index.html" (do-replacements idx replacements))
-          (write-file "data/popup/index.html" (do-replacements pop replacements))))
+        (let ((idx (file-contents "chrome/content/data/index.html.tpl"))
+              (pop (file-contents "chrome/content/data/popup/index.html.tpl")))
+          (write-file "chrome/content/data/index.html" (do-replacements idx replacements))
+          (write-file "chrome/content/data/popup/index.html" (do-replacements pop replacements))))
       (:string
         (let ((data (file-contents "data/index.html.tpl")))
           (do-replacements data replacements))))))
