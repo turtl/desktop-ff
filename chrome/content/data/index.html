@@ -81,7 +81,6 @@
 <script src="app/controllers/boards/manage.js"></script>
 <script src="app/controllers/boards/share.js"></script>
 <script src="app/controllers/bookmark.js"></script>
-<script src="app/controllers/categories.js"></script>
 <script src="app/controllers/dashboard.js"></script>
 <script src="app/controllers/feedback/button.js"></script>
 <script src="app/controllers/feedback/index.js"></script>
@@ -110,7 +109,6 @@
 <script src="app/controllers/users/login.js"></script>
 
 <script src="app/models/board.js"></script>
-<script src="app/models/category.js"></script>
 <script src="app/models/feedback.js"></script>
 <script src="app/models/file.js"></script>
 <script src="app/models/invite.js"></script>
@@ -480,29 +478,12 @@ var action	=	(board.id ? 'Edit' : 'Add');
 <? } ?>
 
 </script>
-<script type="text/x-lb-tpl" name="categories/list">
-<? if(categories.length > 0) { ?>
-	<ul class="categories">
-		<? categories.each(function(c) { ?>
-			<li>
-				<a href="#cat"><?=c.name?></a>
-				<ul>
-					<? c.tags.each(function(t) { ?>
-						<li><a href="#tag"><?=t.name?></a></li>
-					<? }); ?>
-				</ul>
-			</li>
-		<? }); ?>
-	</ul>
-<? } ?>
-</script>
 <script type="text/x-lb-tpl" name="dashboard/index">
 <div class="dashboard clear">
 	<div class="notes clear"></div>
 	<div class="boards"></div>
 	<div class="sidebar">
 		<div class="menu">
-			<div class="categories"></div>
 			<div class="tags clear"></div>
 		</div>
 	</div>
