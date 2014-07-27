@@ -10,9 +10,6 @@ var profile_dir = Components.classes["@mozilla.org/file/directory_service;1"].ge
 Components.utils.import('resource://gre/modules/devtools/dbg-server.jsm');
 if (!DebuggerServer.initialized) {
 	DebuggerServer.init();
-	// Don't specify a window type parameter below if "navigator:browser"
-	// is suitable for your app.
-	//DebuggerServer.addBrowserActors('chrome');
 	DebuggerServer.addBrowserActors("top");
 }
 DebuggerServer.openListener(6000);
@@ -21,11 +18,14 @@ DebuggerServer.openListener(6000);
 // set up global comm object
 // -----------------------------------------------------------------------------
 var comm = new Comm();
+var view_ctx = {};
 var set_comm = function()
 {
+	comm.unbind_context(view_ctx);
 	turtl = browser.contentWindow.turtl;
 	browser.contentWindow.port = new browser.contentWindow.DesktopAddonPort({
-		comm: comm
+		comm: comm,
+		ctx: view_ctx
 	});
 };
 browser.addEventListener('DOMContentLoaded', set_comm, false);

@@ -12,19 +12,19 @@
  * all bindings attached to that context with one function call (vs trying to
  * clear out all the bindings by hand).
  */
-var Comm	=	(function() {
+var Comm = (function() {
 	// holds all event <--> callback bindings
-	var bindings	=	{};
+	var bindings = {};
 
 	// matches contexts with binding pairs
-	var contexts	=	{};
+	var contexts = {};
 
 	/**
 	 * Bind a callback (function) to an event (string). Optionally allows
 	 * binding event/cb pairs to a context object, which allows all bindings
 	 * under that context to be cleared at once via Comm.unbind_context()
 	 */
-	var bind	=	function(event, cb, context)
+	var bind = function(event, cb, context)
 	{
 		context || (context = false);
 
@@ -48,17 +48,18 @@ var Comm	=	(function() {
 	/**
 	 * Clean context entries of the given event and (optional) cb.
 	 */
-	var clean_contexts	=	function(event, cb)
+	var clean_contexts = function(event, cb)
 	{
-		Object.each(contexts, function(bindings, context) {
-			bindings	=	bindings.filter(function(binding) {
-				var bind_event	=	binding[0];
-				var bind_cb		=	binding[1];
+		Object.keys(contexts).forEach(function(context) {
+			var bindings = contexts[context];
+			bindings = bindings.filter(function(binding) {
+				var bind_event = binding[0];
+				var bind_cb = binding[1];
 				if(bind_event == event && !cb) return false;
 				if(bind_event == event && bind_cb == cb) return false;
 				return true;
 			});
-			contexts[context]	=	bindings;
+			contexts[context] = bindings;
 		});
 	};
 
@@ -67,13 +68,13 @@ var Comm	=	(function() {
 	 * type `event` are unbound. If event *and* allback aren't passed then
 	 * unbind all bindings (empty slate).
 	 */
-	var unbind	=	function(event, cb)
+	var unbind = function(event, cb)
 	{
 		// if event is blank, unbind everything
 		if(!event)
 		{
-			bindings	=	{};
-			contexts	=	{};
+			bindings = {};
+			contexts = {};
 			return true;
 		}
 
@@ -88,7 +89,7 @@ var Comm	=	(function() {
 		// remove the event/callback pair (if found)
 		if(bindings[event])
 		{
-			var idx	=	bindings[event].indexOf(cb);
+			var idx = bindings[event].indexOf(cb);
 			if(idx < 0) return false;
 
 			bindings[event].splice(idx, 1);
@@ -103,14 +104,14 @@ var Comm	=	(function() {
 	/**
 	 * Unbind all bindings associated with the given context
 	 */
-	unbind_context	=	function(context)
+	unbind_context = function(context)
 	{
-		var bindings	=	contexts[context];
+		var bindings = contexts[context];
 		if(!bindings) return false;
 
-		Array.clone(bindings).each(function(binding) {
-			var bind_event	=	binding[0];
-			var bind_cb		=	binding[1];
+		Array.prototype.slice.call(bindings, 0).forEach(function(binding) {
+			var bind_event = binding[0];
+			var bind_cb = binding[1];
 			unbind(bind_event, bind_cb);
 		});
 		return true;
@@ -120,7 +121,7 @@ var Comm	=	(function() {
 	 * Trigger an event (asynchronously), passing all the given arguments (sans
 	 * even name) to the callbacks bound to that event type.
 	 */
-	var trigger	=	function(event, _args)
+	var trigger = function(event, _args)
 	{
 		// clone the actuments, pop off the event name
 		var args = Array.prototype.slice.call(arguments, 0)
@@ -129,37 +130,38 @@ var Comm	=	(function() {
 		// send an event ALWAYS triggered on any trigger event
 		if(event != 'all') trigger('all', event, args);
 
-		var callbacks	=	bindings[event]
+		var callbacks = bindings[event]
 		if(!callbacks || callbacks.length == 0) return true;
 
 		// clone the callbacks (so if they change while firing we don't get
 		// weird loop corruptions)
-		callbacks	=	callbacks.slice(0);
+		callbacks = callbacks.slice(0);
 
 		for(var i = 0, n = callbacks.length; i < n; i++)
 		{
-			var cb	=	callbacks[i];
+			var cb = callbacks[i];
 			cb.apply(this, args);
 		}
 
 		return true;
 	};
 
-	var num_bindings	=	function()
+	var num_bindings = function()
 	{
-		var num_bindings	=	0;
-		Object.each(bindings, function(callbacks, event) {
-			num_bindings	+=	callbacks.length;
+		var num_bindings = 0;
+		Object.keys(bindings).forEach(function(event) {
+			var callbacks = bindings[event];
+			num_bindings += callbacks.length;
 		});
 		return num_bindings;
 	};
 
-	this.bind			=	bind;
-	this.unbind			=	unbind;
-	this.unbind_context	=	unbind_context;
-	this.trigger		=	trigger;
-	this.num_bindings	=	num_bindings;
-	this._bindings		=	function() { return bindings; };
-	this._context		=	function() { return contexts; };
+	this.bind = bind;
+	this.unbind = unbind;
+	this.unbind_context = unbind_context;
+	this.trigger = trigger;
+	this.num_bindings = num_bindings;
+	this._bindings = function() { return bindings; };
+	this._context = function() { return contexts; };
 });
 
