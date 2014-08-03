@@ -5,9 +5,11 @@ var tlib = ctypes.open('turtl');
 var nlib = ctypes.open('nanomsg');
 var turtl_core = {};
 
+var turtl_url = 'inproc://turtl';
+
 (function(exports) {
 	var sock = null;
-	var bind = null;
+	var conn = null;
 
 	var msg_cb_type = ctypes.FunctionType(
 		ctypes.default_abi,
@@ -55,13 +57,13 @@ var turtl_core = {};
 	{
 		sock = nn_socket(af_sp, NN_PAIR);
 		if(sock < 0) throw new Error('Error creating socket.');
-		bind = nn_bind(sock, 'inproc://turtl');
-		if(bind < 0) throw new Error('Error binding socket.');
+		conn = nn_connect(sock, turtl_url);
+		if(conn < 0) throw new Error('Error binding socket.');
 	};
 
 	var close = function()
 	{
-		nn_shutdown(sock, bind);
+		nn_shutdown(sock, conn);
 		nn_close(sock);
 	};
 
