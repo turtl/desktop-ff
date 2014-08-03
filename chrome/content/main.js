@@ -21,6 +21,7 @@ var comm = new Comm();
 var view_ctx = {};
 var set_comm = function()
 {
+	console.log('turtl: set comm');
 	comm.unbind_context(view_ctx);
 	turtl = browser.contentWindow.turtl;
 	browser.contentWindow.port = new browser.contentWindow.DesktopAddonPort({
