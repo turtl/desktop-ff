@@ -1020,10 +1020,10 @@ var t = '<li class="'+view.tagetize(tagname, {escape: true})+' '+(selected ? 'se
 <script type="text/x-lb-tpl" name="notes/list/image">
 <a class="img" href="<?=note.url?>" target="_blank">
 	<img src="<?=note.url?>">
-	<? if(note.title) { ?>
-		<h2><?=note.title?></h2>
-	<? } ?>
 </a>
+<? if(note.title) { ?>
+	<h2><?=note.title?></h2>
+<? } ?>
 </script>
 <script type="text/x-lb-tpl" name="notes/list/index">
 <?
