@@ -23,5 +23,5 @@ var do_poll = function()
 	//console.log('worker: post: ', ev);
 	postMessage(ev);
 };
-setInterval(do_poll, 100);
+setInterval(do_poll, 50);
 
